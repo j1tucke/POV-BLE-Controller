@@ -171,8 +171,8 @@
     function sendNewValues(){
         newColor = document.getElementById('colorValue').value;
         newText = document.getElementById('textValue').value;
-        writeColorCharacteristic(newText);
-        writeTextCharacteristic(newColor);
+        writeColorCharacteristic(newColor);
+        writeTextCharacteristic(newText);
         latestValueSent.innerHTML = newColor + ":" + newText;
     }
     function writeColorCharacteristic(value){

@@ -47,7 +47,7 @@
     const onButton = document.getElementById('onButton');
     const offButton = document.getElementById('offButton');
     const sendButton = document.getElementById('sendButton');
-    const textValue = document.getElementById('textValue');
+    const textValue = document.getElementById('textValue').value;
     const colorValue = document.getElementById('colorValue');
     const retrievedValue = document.getElementById('valueContainer');
     const latestValueSent = document.getElementById('valueSent');
@@ -172,6 +172,11 @@
     }
 
     function writeTextCharacteristic(value){
+       
+        console.log( "value:" + document.getElementById('textValue').value);
+        console.log( "color:" + document.getElementById('colorValue').value);
+        value = document.getElementById('textValue').value;
+        console.log( "writing:" + value );
         if (bleServer && bleServer.connected) {
             bleServiceFound.getCharacteristic(textCharacteristic)
             .then(characteristic => {

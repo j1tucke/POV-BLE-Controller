@@ -33,8 +33,7 @@
                 <input type="color" id="colorValue">
                 <input size="11" type="text" id="textValue">
                 <button id="sendButton" class="sendButton">Send</button>
-                <button id="onButton" class="onButton">ON</button>
-                <button id="offButton" class="offButton">OFF</button>
+                
                 <p class="gray-label">Last value sent: <span id="valueSent"></span></p>
             </div>
         </div>
@@ -44,8 +43,7 @@
     // DOM Elements
     const connectButton = document.getElementById('connectBleButton');
     const disconnectButton = document.getElementById('disconnectBleButton');
-    const onButton = document.getElementById('onButton');
-    const offButton = document.getElementById('offButton');
+    
     const sendButton = document.getElementById('sendButton');
     const textValue = document.getElementById('textValue').value;
     const colorValue = document.getElementById('colorValue');
@@ -76,10 +74,8 @@
     // Disconnect Button
     disconnectButton.addEventListener('click', disconnectDevice);
 
-    // Write to the ESP32 LED Characteristic
-    onButton.addEventListener('click', () => writeOnCharacteristic(1));
-    offButton.addEventListener('click', () => writeOnCharacteristic(0));
-    sendButton.addEventListener('click', () => writeTextCharacteristic(textValue));
+    // Write to the ESP32 Characteristics
+    sendButton.addEventListener('click', () => sendNewValues());
 
     // Check if BLE is available in your Browser
     function isWebBluetoothEnabled() {
@@ -150,20 +146,27 @@
         timestampContainer.innerHTML = getDateTime();
     }
 
+    function sendNewValues(){
+        newColor = document.getElementById('colorValue').value;
+        newText = document.getElementById('textValue').value;
+        writeColorCharacteristic(newText);
+        writeTextCharacteristic(newColor);
+        latestValueSent.innerHTML = newColor + ":" + newText;
+    }
     function writeColorCharacteristic(value){
+        const encoder = new TextEncoder(); // To convert string to ArrayBuffer
+        const data = encoder.encode(value);
         if (bleServer && bleServer.connected) {
             bleServiceFound.getCharacteristic(colorCharacteristic)
             .then(characteristic => {
                 console.log("Found the LED characteristic: ", characteristic.uuid);
-                const data = new Uint8Array([value]);
                 return characteristic.writeValue(data);
             })
             .then(() => {
-                latestValueSent.innerHTML = value;
-                console.log("Value written to LEDcharacteristic:", value);
+                console.log("Value written to Color Characteristic:", value);
             })
             .catch(error => {
-                console.error("Error writing to the LED characteristic: ", error);
+                console.error("Error writing to the Color characteristic: ", error);
             });
         } else {
             console.error ("Bluetooth is not connected. Cannot write to characteristic.")
@@ -172,11 +175,6 @@
     }
 
     function writeTextCharacteristic(value){
-       
-        console.log( "value:" + document.getElementById('textValue').value);
-        console.log( "color:" + document.getElementById('colorValue').value);
-        value = document.getElementById('textValue').value;
-        console.log( "writing:" + value );
         const encoder = new TextEncoder(); // To convert string to ArrayBuffer
         const data = encoder.encode(value);
         console.log( "writing data:" + data );
@@ -184,12 +182,10 @@
             bleServiceFound.getCharacteristic(textCharacteristic)
             .then(characteristic => {
                 console.log("Found the Text characteristic: ", characteristic.uuid);
-
                 return characteristic.writeValue(data);
             })
             .then(() => {
-                //latestValueSent.innerHTML = value;
-                console.log("Value written to Textcharacteristic:", value);
+                console.log("Value written to Text characteristic:", value);
             })
             .catch(error => {
                 console.error("Error writing to the Text characteristic: ", error);

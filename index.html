@@ -114,7 +114,9 @@
         })
         .then(characteristic => {
             console.log("Text Characteristic discovered:", characteristic.uuid);
-            const value = characteristic.readValue();
+            return characteristic.readValue();
+        })
+        .then(value => {
             console.log("Read text value: ", value);
             const decodedValue = new TextDecoder().decode(value);
             console.log("Decoded value: ", decodedValue);
@@ -124,7 +126,9 @@
         })
         .then(characteristic => {
             console.log("Color Characteristic discovered:", characteristic.uuid);
-            const value = characteristic.readValue();
+            return characteristic.readValue();
+        })
+        .then(value => {
             console.log("Read color value: ", value);
             const decodedValue = new TextDecoder().decode(value);
             console.log("Decoded value: ", decodedValue);

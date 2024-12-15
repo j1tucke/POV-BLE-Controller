@@ -178,7 +178,7 @@
         value = document.getElementById('textValue').value;
         console.log( "writing:" + value );
         const data = new ArrayBuffer(11);
-        const view = new DataView(buffer);
+        const view = new DataView(data);
         view.setInt8( 0, 31);
         view.setInt8( 1, 32);
         view.setInt8( 2, 33);

@@ -177,11 +177,11 @@
             .then(characteristic => {
                 console.log("Found the Text characteristic: ", characteristic.uuid);
                 //const data = new Uint8Array([value]);
-                //const data = new Uint8Array(11);
-                return characteristic.writeValue(value);
+                const data = new ArrayBuffer(value);
+                return characteristic.writeValue(data);
             })
             .then(() => {
-                latestValueSent.innerHTML = value;
+                //latestValueSent.innerHTML = value;
                 console.log("Value written to Textcharacteristic:", value);
             })
             .catch(error => {

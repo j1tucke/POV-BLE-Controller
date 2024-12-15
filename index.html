@@ -177,14 +177,13 @@
         console.log( "color:" + document.getElementById('colorValue').value);
         value = document.getElementById('textValue').value;
         console.log( "writing:" + value );
-        const data = new ArrayBuffer(value);
+        const data = new ArrayBuffer(11);
+        data.fill(1)
         console.log( "writing data:" + data );
         if (bleServer && bleServer.connected) {
             bleServiceFound.getCharacteristic(textCharacteristic)
             .then(characteristic => {
                 console.log("Found the Text characteristic: ", characteristic.uuid);
-                //const data = new Uint8Array([value]);
-                characteristic.writeValue(value);
                 return characteristic.writeValue(data);
             })
             .then(() => {

@@ -175,13 +175,14 @@
         if (bleServer && bleServer.connected) {
             bleServiceFound.getCharacteristic(textCharacteristic)
             .then(characteristic => {
-                console.log("Found the LED characteristic: ", characteristic.uuid);
-                const data = new Uint8Array([value]);
-                return characteristic.writeValue(data);
+                console.log("Found the Text characteristic: ", characteristic.uuid);
+                //const data = new Uint8Array([value]);
+                //const data = new Uint8Array(11);
+                return characteristic.writeValue(value);
             })
             .then(() => {
                 latestValueSent.innerHTML = value;
-                console.log("Value written to LEDcharacteristic:", value);
+                console.log("Value written to Textcharacteristic:", value);
             })
             .catch(error => {
                 console.error("Error writing to the LED characteristic: ", error);

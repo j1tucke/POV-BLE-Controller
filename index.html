@@ -24,7 +24,7 @@
         <div class="card-grid">   
             <div class="card">
                 <h2>Battery volts</h2>
-                <p class="reading"><span id="valueContainer">NaN</span></p>
+                <p class="reading"><span id="batteryValue">NaN</span></p>
                 <p class="gray-label">Last reading: <span id="timestamp"></span></p>
             </div>
 
@@ -47,7 +47,7 @@
     const sendButton = document.getElementById('sendButton');
     const textValue = document.getElementById('textValue').value;
     const colorValue = document.getElementById('colorValue');
-    const retrievedValue = document.getElementById('valueContainer');
+    const batteryValue = document.getElementById('batteryValue');
     const latestValueSent = document.getElementById('valueSent');
     const bleStateContainer = document.getElementById('bleState');
     const timestampContainer = document.getElementById('timestamp');
@@ -124,7 +124,7 @@
             console.log("Read value: ", value);
             const decodedValue = new TextDecoder().decode(value);
             console.log("Decoded value: ", decodedValue);
-            retrievedValue.innerHTML = decodedValue;            
+            batteryValue.innerHTML = decodedValue;            
         })
         .catch(error => {
             console.log('Error: ', error);
@@ -142,7 +142,7 @@
     function handleCharacteristicChange(event){
         const newValueReceived = new TextDecoder().decode(event.target.value);
         console.log("Characteristic value changed: ", newValueReceived);
-        retrievedValue.innerHTML = newValueReceived;
+        batteryValue.innerHTML = newValueReceived;
         timestampContainer.innerHTML = getDateTime();
     }
 

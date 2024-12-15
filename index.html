@@ -47,8 +47,8 @@
     const onButton = document.getElementById('onButton');
     const offButton = document.getElementById('offButton');
     const sendButton = document.getElementById('sendButton');
-    const text = document.getElementById('text');
-    const color = document.getElementById('color');
+    const textValue = document.getElementById('textValue');
+    const colorValue = document.getElementById('colorValue');
     const retrievedValue = document.getElementById('valueContainer');
     const latestValueSent = document.getElementById('valueSent');
     const bleStateContainer = document.getElementById('bleState');
@@ -79,7 +79,7 @@
     // Write to the ESP32 LED Characteristic
     onButton.addEventListener('click', () => writeOnCharacteristic(1));
     offButton.addEventListener('click', () => writeOnCharacteristic(0));
-    sendButton.addEventListener('click', () => writeTextCharacteristic(text));
+    sendButton.addEventListener('click', () => writeTextCharacteristic(textValue));
 
     // Check if BLE is available in your Browser
     function isWebBluetoothEnabled() {
@@ -185,7 +185,7 @@
                 console.log("Value written to Textcharacteristic:", value);
             })
             .catch(error => {
-                console.error("Error writing to the LED characteristic: ", error);
+                console.error("Error writing to the Text characteristic: ", error);
             });
         } else {
             console.error ("Bluetooth is not connected. Cannot write to characteristic.")

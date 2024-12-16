@@ -72,10 +72,10 @@
     var bleServiceFound;
     var batteryCharacteristicFound;
 
-    function debugLogger( line )
+    function debugLogger( line, line2, line3)
     {
         debuggerText = document.getElementById('debugger').innerHTML;
-        debuggerText += line +"\n";
+        debuggerText += line+line2+line3+"\n";
         document.getElementById('debugger').innerHTML = debuggerText;
         console.log(line);
     }

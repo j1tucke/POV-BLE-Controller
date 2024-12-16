@@ -212,11 +212,14 @@
 
         writeColorCharacteristic(newColor);
         writeTextCharacteristic(newText);
+        
         latestValueSent.innerHTML = newColor + ":" + newText;
     }
-    function writeColorCharacteristic(value){
+
+    async function writeColorCharacteristic(value) {
         const encoder = new TextEncoder(); // To convert string to ArrayBuffer
         const data = encoder.encode(value);
+        debugLogger( "writeColor:", value);
         colorCharacteristicFound.writeValue(data);
         if (bleServer && bleServer.connected) {
             bleServiceFound.getCharacteristic(colorCharacteristic)
@@ -236,9 +239,10 @@
         }
     }
 
-    function writeTextCharacteristic(value){
+    async function writeTextCharacteristic(value){
         const encoder = new TextEncoder(); // To convert string to ArrayBuffer
         const data = encoder.encode(value);
+        debugLogger( "writeText:", value);
         textCharacteristicFound.writeValue(data);
         debugLogger( "writing data:" + data );
         if (bleServer && bleServer.connected) {

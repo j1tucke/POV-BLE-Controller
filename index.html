@@ -71,6 +71,8 @@
     var bleServer;
     var bleServiceFound;
     var batteryCharacteristicFound;
+    var textCharacteristicFound;
+    var colorCharacteristicFound;
 
     function debugLogger( line, line2, line3)
     {
@@ -132,6 +134,9 @@
         })
          .then(characteristic => {
              debugLogger("Text Characteristic discovered:", characteristic.uuid);
+             textCharacteristicFound = characteristic;
+            characteristic.addEventListener('characteristicvaluechanged', handleTextChange);
+            characteristic.startNotifications();
         //     return characteristic.readValue();
         // })
         // .then(value => {
@@ -143,6 +148,9 @@
          })
          .then(characteristic => {
              debugLogger("Color Characteristic discovered:", characteristic.uuid);
+             colorCharacteristicFound = characteristic;
+            characteristic.addEventListener('characteristicvaluechanged', handleColorChange);
+            characteristic.startNotifications();
         //     return characteristic.readValue();
         // })
         //.then(value => {
@@ -155,7 +163,7 @@
         .then(characteristic => {
             debugLogger("Battery Characteristic discovered:", characteristic.uuid);
             batteryCharacteristicFound = characteristic;
-            characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicChange);
+            characteristic.addEventListener('characteristicvaluechanged', handleBatteryChange);
             characteristic.startNotifications();
             debugLogger("Notifications Started.");
             return characteristic.readValue();
@@ -177,8 +185,20 @@
         bleStateContainer.style.color = "#d13a30";
         connectToDevice();
     }
+    function handleTextChange(event){
+        const newValueReceived = new TextDecoder().decode(event.target.value);
+        debugLogger("TextCharacteristic value changed: ", newValueReceived);
+        textValue.innerHTML = newValueReceived;
+        timestampContainer.innerHTML = getDateTime();
+    }
+    function handleColorChange(event){
+        const newValueReceived = new TextDecoder().decode(event.target.value);
+        debugLogger("ColorCharacteristic value changed: ", newValueReceived);
+        colorValue.innerHTML = newValueReceived;
+        timestampContainer.innerHTML = getDateTime();
+    }
 
-    function handleCharacteristicChange(event){
+    function handleBatteryChange(event){
         const newValueReceived = new TextDecoder().decode(event.target.value);
         debugLogger("Characteristic value changed: ", newValueReceived);
         batteryValue.innerHTML = newValueReceived;

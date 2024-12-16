@@ -217,6 +217,7 @@
     function writeColorCharacteristic(value){
         const encoder = new TextEncoder(); // To convert string to ArrayBuffer
         const data = encoder.encode(value);
+        colorCharacteristicFound.writeValue(data);
         if (bleServer && bleServer.connected) {
             bleServiceFound.getCharacteristic(colorCharacteristic)
             .then(characteristic => {
@@ -238,6 +239,7 @@
     function writeTextCharacteristic(value){
         const encoder = new TextEncoder(); // To convert string to ArrayBuffer
         const data = encoder.encode(value);
+        textCharacteristicFound.writeValue(data);
         debugLogger( "writing data:" + data );
         if (bleServer && bleServer.connected) {
             bleServiceFound.getCharacteristic(textCharacteristic)

@@ -131,25 +131,25 @@
             debugLogger("Text Characteristic discovered:", characteristic.uuid);
             return characteristic.readValue();
         })
-        .then(value => {
-            debugLogger("Read text value: ", value);
-            const decodedValue = new TextDecoder().decode(value);
-            debugLogger("Decoded value: ", decodedValue);
-            //document.getElementById('textValue').innerHTML = decodedValue; 
-            return service.getCharacteristic(colorCharacteristic);
+        // .then(value => {
+        //     debugLogger("Read text value: ", value);
+        //     const decodedValue = new TextDecoder().decode(value);
+        //     debugLogger("Decoded value: ", decodedValue);
+        //     //document.getElementById('textValue').innerHTML = decodedValue; 
+        //     return service.getCharacteristic(colorCharacteristic);
             
-        })
+        // })
         .then(characteristic => {
             debugLogger("Color Characteristic discovered:", characteristic.uuid);
             return characteristic.readValue();
         })
-        .then(value => {
-            debugLogger("Read color value: ", value);
-            const decodedValue = new TextDecoder().decode(value);
-            debugLogger("Decoded value: ", decodedValue);
-            //document.getElementById('colorValue').innerHTML = decodedValue; 
-            return service.getCharacteristic(batteryCharacteristic);
-        })
+        // .then(value => {
+        //     debugLogger("Read color value: ", value);
+        //     const decodedValue = new TextDecoder().decode(value);
+        //     debugLogger("Decoded value: ", decodedValue);
+        //     //document.getElementById('colorValue').innerHTML = decodedValue; 
+        //     return service.getCharacteristic(batteryCharacteristic);
+        // })
         .then(characteristic => {
             debugLogger("Battery Characteristic discovered:", characteristic.uuid);
             batteryCharacteristicFound = characteristic;

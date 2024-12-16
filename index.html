@@ -75,7 +75,10 @@
     function debugLogger( line, line2, line3)
     {
         debuggerText = document.getElementById('debugger').innerHTML;
-        debuggerText += line+line2+line3+"\n";
+        debuggerText += line;
+        debuggerText += line2 ?? ""
+        debuggerText += line3 ?? ""
+        debuggerText += "\n"
         document.getElementById('debugger').innerHTML = debuggerText;
         console.log(line);
     }

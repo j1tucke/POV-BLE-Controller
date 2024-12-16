@@ -132,7 +132,7 @@
             debugLogger("Service discovered:", service.uuid);
             return service.getCharacteristic(textCharacteristic);
         })
-         .then(characteristic => {
+        .then(characteristic => {
              debugLogger("Text Characteristic discovered:", characteristic.uuid);
              textCharacteristicFound = characteristic;
             characteristic.addEventListener('characteristicvaluechanged', handleTextChange);
@@ -144,7 +144,7 @@
         //     const decodedValue = new TextDecoder().decode(value);
         //     debugLogger("Decoded value: ", decodedValue);
         //     //document.getElementById('textValue').innerHTML = decodedValue; 
-            return service.getCharacteristic(colorCharacteristic);    
+            return bleServiceFound.getCharacteristic(colorCharacteristic);    
          })
          .then(characteristic => {
              debugLogger("Color Characteristic discovered:", characteristic.uuid);
@@ -158,7 +158,7 @@
         //     const decodedValue = new TextDecoder().decode(value);
         //     debugLogger("Decoded value: ", decodedValue);
         //     //document.getElementById('colorValue').innerHTML = decodedValue; 
-             return service.getCharacteristic(batteryCharacteristic);
+             return bleServiceFound.getCharacteristic(batteryCharacteristic);
         })
         .then(characteristic => {
             debugLogger("Battery Characteristic discovered:", characteristic.uuid);

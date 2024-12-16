@@ -276,6 +276,38 @@
             } else {
                 debugLogger("No characteristic found to disconnect.");
             }
+            if (textCharacteristicFound) {
+                textCharacteristicFound.stopNotifications()
+                    .then(() => {
+                        debugLogger("Notifications Stopped");
+                        return bleServer.disconnect();
+                    })
+                    .then(() => {
+                        debugLogger("Device Disconnected");
+                        bleStateContainer.innerHTML = "Device Disconnected";
+                        bleStateContainer.style.color = "#d13a30";
+
+                    })
+                    .catch(error => {
+                        debugLogger("An error occurred:", error);
+                    });
+            }
+            if (colorCharacteristicFound) {
+                colorCharacteristicFound.stopNotifications()
+                    .then(() => {
+                        debugLogger("Notifications Stopped");
+                        return bleServer.disconnect();
+                    })
+                    .then(() => {
+                        debugLogger("Device Disconnected");
+                        bleStateContainer.innerHTML = "Device Disconnected";
+                        bleStateContainer.style.color = "#d13a30";
+
+                    })
+                    .catch(error => {
+                        debugLogger("An error occurred:", error);
+                    });
+            }
         } else {
             // Throw an error if Bluetooth is not connected
             debugLogger("Bluetooth is not connected.");

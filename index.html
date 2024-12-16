@@ -208,6 +208,8 @@
     function sendNewValues(){
         newColor = document.getElementById('colorValue').value;
         newText = document.getElementById('textValue').value;
+        debugLogger( "text value: ", document.getElementById('textValue').value );
+
         writeColorCharacteristic(newColor);
         writeTextCharacteristic(newText);
         latestValueSent.innerHTML = newColor + ":" + newText;
@@ -218,7 +220,7 @@
         if (bleServer && bleServer.connected) {
             bleServiceFound.getCharacteristic(colorCharacteristic)
             .then(characteristic => {
-                debugLogger("Found the LED characteristic: ", characteristic.uuid);
+                debugLogger("Found Color characteristic: ", characteristic.uuid);
                 return characteristic.writeValue(data);
             })
             .then(() => {

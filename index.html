@@ -135,7 +135,7 @@
             debugLogger("Read text value: ", value);
             const decodedValue = new TextDecoder().decode(value);
             debugLogger("Decoded value: ", decodedValue);
-            document.getElementById('textValue').value = decodedValue; 
+            document.getElementById('textValue').innerHTML = decodedValue; 
             return service.getCharacteristic(colorCharacteristic);
             
         })
@@ -147,7 +147,7 @@
             debugLogger("Read color value: ", value);
             const decodedValue = new TextDecoder().decode(value);
             debugLogger("Decoded value: ", decodedValue);
-            document.getElementById('colorValue').value = decodedValue; 
+            document.getElementById('colorValue').innerHTML = decodedValue; 
             return service.getCharacteristic(batteryCharacteristic);
         })
         .then(characteristic => {

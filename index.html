@@ -199,10 +199,10 @@
     }
 
     function handleBatteryChange(event){
-        const newValueReceived = new TextDecoder().decode(event.target.value);
-        debugLogger( "battery event target value: ", event.target.value);
-        debugLogger("Characteristic value changed: ", newValueReceived);
-        batteryValue.innerHTML = newValueReceived;
+        //const newValueReceived = new TextDecoder().decode(event.target.value);
+        const batteryVoltage = new DataView(event.target.buffer).getFloat32(0, true);
+        debugLogger( "battery event value: ", batteryVoltage);
+        batteryValue.innerHTML = batteryVoltage;
         timestampContainer.innerHTML = getDateTime();
     }
 

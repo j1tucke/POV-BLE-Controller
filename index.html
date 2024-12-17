@@ -200,10 +200,12 @@
 
     function handleBatteryChange(event){
         //const newValueReceived = new TextDecoder().decode(event.target.value);
+        debugLogger( "battery changed start");
         const batteryVoltage = new DataView(event.target.buffer).getFloat32(0, true);
         debugLogger( "battery event value: ", batteryVoltage);
         batteryValue.innerHTML = batteryVoltage;
         timestampContainer.innerHTML = getDateTime();
+        debugLogger( "battery changed end");
     }
 
     function sendNewValues(){

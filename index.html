@@ -166,14 +166,14 @@
             characteristic.addEventListener('characteristicvaluechanged', handleBatteryChange);
             characteristic.startNotifications();
             debugLogger("Notifications Started.");
-            return characteristic.readValue();
+            //return characteristic.readValue();
         })
-        .then(value => {
-            debugLogger("Read value: ", value);
-            const decodedValue = new TextDecoder().decode(value);
-            debugLogger("Decoded value: ", decodedValue);
-            batteryValue.innerHTML = decodedValue;            
-        })
+        // .then(value => {
+        //     debugLogger("Read value: ", value);
+        //     const decodedValue = new TextDecoder().decode(value);
+        //     debugLogger("Decoded value: ", decodedValue);
+        //     batteryValue.innerHTML = decodedValue;            
+        // })
         .catch(error => {
             debugLogger('ConnectDevice Error: ', error);
         })

@@ -135,8 +135,8 @@
         .then(characteristic => {
              debugLogger("Text Characteristic discovered:", characteristic.uuid);
              textCharacteristicFound = characteristic;
-            characteristic.addEventListener('characteristicvaluechanged', handleTextChange);
-            characteristic.startNotifications();
+            //characteristic.addEventListener('characteristicvaluechanged', handleTextChange);
+            //characteristic.startNotifications();
         //     return characteristic.readValue();
         // })
         // .then(value => {
@@ -149,8 +149,8 @@
          .then(characteristic => {
              debugLogger("Color Characteristic discovered:", characteristic.uuid);
              colorCharacteristicFound = characteristic;
-            characteristic.addEventListener('characteristicvaluechanged', handleColorChange);
-            characteristic.startNotifications();
+            //characteristic.addEventListener('characteristicvaluechanged', handleColorChange);
+            //characteristic.startNotifications();
         //     return characteristic.readValue();
         // })
         //.then(value => {
@@ -210,8 +210,8 @@
         newText = document.getElementById('textValue').value;
         debugLogger( "text value: ", document.getElementById('textValue').value );
 
-        writeColorCharacteristic(newColor);
-        writeTextCharacteristic(newText);
+        writeColorCharacteristic(newColor).then(
+            writeTextCharacteristic(newText));
         
         latestValueSent.innerHTML = newColor + ":" + newText;
     }
@@ -283,38 +283,6 @@
                     });
             } else {
                 debugLogger("No characteristic found to disconnect.");
-            }
-            if (textCharacteristicFound) {
-                textCharacteristicFound.stopNotifications()
-                    .then(() => {
-                        debugLogger("Notifications Stopped");
-                        return bleServer.disconnect();
-                    })
-                    .then(() => {
-                        debugLogger("Device Disconnected");
-                        bleStateContainer.innerHTML = "Device Disconnected";
-                        bleStateContainer.style.color = "#d13a30";
-
-                    })
-                    .catch(error => {
-                        debugLogger("An error occurred:", error);
-                    });
-            }
-            if (colorCharacteristicFound) {
-                colorCharacteristicFound.stopNotifications()
-                    .then(() => {
-                        debugLogger("Notifications Stopped");
-                        return bleServer.disconnect();
-                    })
-                    .then(() => {
-                        debugLogger("Device Disconnected");
-                        bleStateContainer.innerHTML = "Device Disconnected";
-                        bleStateContainer.style.color = "#d13a30";
-
-                    })
-                    .catch(error => {
-                        debugLogger("An error occurred:", error);
-                    });
             }
         } else {
             // Throw an error if Bluetooth is not connected

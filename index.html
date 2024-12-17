@@ -202,19 +202,18 @@
         
         const value = event.target.value;
          const floatValue = value.getFloat32(0, true); // Assuming little-endian format
-         document.getElementById('batteryValue').value = floatValue.toFixed(1);
          batteryValue.innerHTML = floatValue.toFixed(2);
     }
 
-    function sendNewValues(){
+    async function sendNewValues(){
         newColor = document.getElementById('colorValue').value;
         newText = document.getElementById('textValue').value;
         debugLogger( "text value: ", document.getElementById('textValue').value );
 
-        writeColorCharacteristic(newColor)
-        // .then(() => {
-        //     writeTextCharacteristic(newText)
-        // });
+        await writeColorCharacteristic(newColor)
+        .then(() => {
+            writeTextCharacteristic(newText)
+        });
         debugLogger( "done with sendNewValues" );
         latestValueSent.innerHTML = newColor + ":" + newText;
     }

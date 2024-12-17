@@ -206,7 +206,7 @@
          const floatValue = value.getFloat32(0, true); // Assuming little-endian format
          debugLogger( "battery changed got float", floatValue);
          document.getElementById('batteryValue').value = floatValue;
-         batteryValue.innerHTML = floatValue;
+         batteryValue.innerHTML = floatValue.toFixed(2);
         //const batteryVoltage = new DataView(event.target.buffer).getFloat32(0, true);
         debugLogger( "battery event value: ", batteryVoltage);
         //batteryValue.innerHTML = batteryVoltage;

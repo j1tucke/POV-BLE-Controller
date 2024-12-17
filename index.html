@@ -210,9 +210,10 @@
         newText = document.getElementById('textValue').value;
         debugLogger( "text value: ", document.getElementById('textValue').value );
 
-        writeColorCharacteristic(newColor).then(
-            writeTextCharacteristic(newText));
-        
+        writeColorCharacteristic(newColor)
+        .then(() => {
+            writeTextCharacteristic(newText)
+        });
         latestValueSent.innerHTML = newColor + ":" + newText;
     }
 
@@ -220,47 +221,36 @@
         const encoder = new TextEncoder(); // To convert string to ArrayBuffer
         const data = encoder.encode(value);
         debugLogger( "writeColor:", value);
-        colorCharacteristicFound.writeValue(data);
-        if (bleServer && bleServer.connected) {
-            bleServiceFound.getCharacteristic(colorCharacteristic)
-            .then(characteristic => {
-                debugLogger("Found Color characteristic: ", characteristic.uuid);
-                return characteristic.writeValue(data);
-            })
-            .then(() => {
-                debugLogger("Value written to Color Characteristic:", value);
-            })
-            .catch(error => {
+        //if (bleServer && bleServer.connected) {
+        colorCharacteristicFound.writeValue(data)
+        .then(() => {
+            debugLogger("Value written to Color Characteristic:", value);
+        })
+        .catch(error => {
                 debugLogger("Error writing to the Color characteristic: ", error);
-            });
-        } else {
-            debugLogger ("Bluetooth is not connected. Cannot write to characteristic.")
-            window.alert("Bluetooth is not connected. Cannot write to characteristic. \n Connect to BLE first!")
-        }
+        });
+        //} else {
+            //debugLogger ("Bluetooth is not connected. Cannot write to characteristic.")
+            //window.alert("Bluetooth is not connected. Cannot write to characteristic. \n Connect to BLE first!")
+        //}
     }
 
     async function writeTextCharacteristic(value){
         const encoder = new TextEncoder(); // To convert string to ArrayBuffer
         const data = encoder.encode(value);
         debugLogger( "writeText:", value);
-        textCharacteristicFound.writeValue(data);
-        debugLogger( "writing data:" + data );
-        if (bleServer && bleServer.connected) {
-            bleServiceFound.getCharacteristic(textCharacteristic)
-            .then(characteristic => {
-                debugLogger("Found the Text characteristic: ", characteristic.uuid);
-                return characteristic.writeValue(data);
-            })
+        //if (bleServer && bleServer.connected) {
+            textCharacteristicFound.writeValue(data)
             .then(() => {
                 debugLogger("Value written to Text characteristic:", value);
             })
-            .catch(error => {
+            .catch( error => {
                 debugLogger("Error writing to the Text characteristic: ", error);
             });
-        } else {
-            debugLogger ("Bluetooth is not connected. Cannot write to characteristic.")
-            window.alert("Bluetooth is not connected. Cannot write to characteristic. \n Connect to BLE first!")
-        }
+        //} else {
+            //debugLogger ("Bluetooth is not connected. Cannot write to characteristic.")
+            //window.alert("Bluetooth is not connected. Cannot write to characteristic. \n Connect to BLE first!")
+        //}
     }
 
     function disconnectDevice() {

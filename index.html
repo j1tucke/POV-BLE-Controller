@@ -203,6 +203,7 @@
         const value = event.target.value;
          const floatValue = value.getFloat32(0, true); // Assuming little-endian format
          batteryValue.innerHTML = floatValue.toFixed(2);
+         timestampContainer.innerHTML = getDateTime();
     }
 
     async function sendNewValues(){

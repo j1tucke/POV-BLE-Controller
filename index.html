@@ -133,9 +133,10 @@
             return service.getCharacteristic(textCharacteristic);
         })
         .then(characteristic => {
-             debugLogger("Text Characteristic discovered:", characteristic.uuid);
-             textCharacteristicFound = characteristic;
-            //characteristic.addEventListener('characteristicvaluechanged', handleTextChange);
+            debugLogger("Text Characteristic discovered:", characteristic.uuid);
+            textCharacteristicFound = characteristic;
+            characteristic.addEventListener('characteristicvaluechanged', handleTextChange);
+            characteristic.readValue();
             //characteristic.startNotifications();
         //     return characteristic.readValue();
         // })
@@ -147,9 +148,10 @@
             return bleServiceFound.getCharacteristic(colorCharacteristic);    
          })
          .then(characteristic => {
-             debugLogger("Color Characteristic discovered:", characteristic.uuid);
-             colorCharacteristicFound = characteristic;
-            //characteristic.addEventListener('characteristicvaluechanged', handleColorChange);
+            debugLogger("Color Characteristic discovered:", characteristic.uuid);
+            colorCharacteristicFound = characteristic;
+            characteristic.addEventListener('characteristicvaluechanged', handleColorChange);
+            characteristic.readValue();
             //characteristic.startNotifications();
         //     return characteristic.readValue();
         // })

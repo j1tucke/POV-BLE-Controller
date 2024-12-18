@@ -130,22 +130,22 @@
         .then(service => {
             bleServiceFound = service;
             debugLogger("Service discovered:", service.uuid);
-            return service.getCharacteristic(textCharacteristic);
+            return service.getCharacteristic(colorCharacteristic);
+        })
+        .then(characteristic => {
+            debugLogger("Color Characteristic discovered:", characteristic.uuid);
+            colorCharacteristicFound = characteristic;
+            colorCharacteristicFound.addEventListener('characteristicvaluechanged', handleColorChange);
+            colorCharacteristicFound.readValue();
+            return bleServiceFound.getCharacteristic(textCharacteristic);
         })
         .then(characteristic => {
             debugLogger("Text Characteristic discovered:", characteristic.uuid);
             textCharacteristicFound = characteristic;
             textCharacteristicFound.addEventListener('characteristicvaluechanged', handleTextChange);
             textCharacteristicFound.readValue();
-            return bleServiceFound.getCharacteristic(colorCharacteristic);    
+            return bleServiceFound.getCharacteristic(batteryCharacteristic);    
          })
-         .then(characteristic => {
-            debugLogger("Color Characteristic discovered:", characteristic.uuid);
-            colorCharacteristicFound = characteristic;
-            colorCharacteristicFound.addEventListener('characteristicvaluechanged', handleColorChange);
-            colorCharacteristicFound.readValue();
-            return bleServiceFound.getCharacteristic(batteryCharacteristic);
-        })
         .then(characteristic => {
             debugLogger("Battery Characteristic discovered:", characteristic.uuid);
             batteryCharacteristicFound = characteristic;

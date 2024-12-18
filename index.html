@@ -242,8 +242,9 @@
     async function writeTextCharacteristic(value){
         return new Promise((resolve, reject) => {
             const encoder = new TextEncoder(); // To convert string to ArrayBuffer
+            value.padEnd(11, " ");
             const data = encoder.encode(value);
-            debugLogger( "start writeTextCharacteristic value:", value);
+            debugLogger( "start writeTextCharacteristic value:["+ value + "]");
             //if (bleServer && bleServer.connected) {
                 textCharacteristicFound.writeValue(data)
                 .then(() => {

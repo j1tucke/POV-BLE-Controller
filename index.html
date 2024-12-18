@@ -166,6 +166,7 @@
         connectToDevice();
     }
     function handleTextChange(event){
+        debugLogger("TextCharacteristic value changed start");
         const newValueReceived = new TextDecoder().decode(event.target.value);
         debugLogger("TextCharacteristic value changed: ", newValueReceived);
         textValue.value = newValueReceived;
@@ -206,7 +207,6 @@
     async function writeColorCharacteristic(value) {
         return new Promise((resolve, reject) => {
             const encoder = new TextEncoder(); // To convert string to ArrayBuffer
-            //const data = new Uint8Array[11];
             const data = encoder.encode(value);
             debugLogger( "start writeColorCharacteristic value:["+ value + "]");
             data.byteLength = 10;

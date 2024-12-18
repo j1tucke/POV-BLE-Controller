@@ -222,7 +222,6 @@
         return new Promise((resolve, reject) => {
             const encoder = new TextEncoder(); // To convert string to ArrayBuffer
             //const data = new Uint8Array[11];
-            value.padEnd(10, " ");
             const data = encoder.encode(value);
             debugLogger( "start writeColorCharacteristic value:["+ value + "]");
             data.byteLength = 10;

@@ -190,13 +190,13 @@
     function handleTextChange(event){
         const newValueReceived = new TextDecoder().decode(event.target.value);
         debugLogger("TextCharacteristic value changed: ", newValueReceived);
-        textValue.innerHTML = newValueReceived;
+        textValue.value = newValueReceived;
         timestampContainer.innerHTML = getDateTime();
     }
     function handleColorChange(event){
         const newValueReceived = new TextDecoder().decode(event.target.value);
         debugLogger("ColorCharacteristic value changed: ", newValueReceived);
-        colorValue.innerHTML = newValueReceived;
+        colorValue.value = newValueReceived;
         timestampContainer.innerHTML = getDateTime();
     }
 

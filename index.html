@@ -221,8 +221,9 @@
     async function writeColorCharacteristic(value) {
         return new Promise((resolve, reject) => {
             const encoder = new TextEncoder(); // To convert string to ArrayBuffer
-            const data = new Uint8Array[11];
-            data = encoder.encode(value);
+            //const data = new Uint8Array[11];
+            value.padEnd(11, " ");
+            const data = encoder.encode(value);
             debugLogger( "start writeColorCharacteristic value:", value);
             //if (bleServer && bleServer.connected) {
             colorCharacteristicFound.writeValue(data)

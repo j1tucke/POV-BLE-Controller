@@ -135,32 +135,16 @@
         .then(characteristic => {
             debugLogger("Text Characteristic discovered:", characteristic.uuid);
             textCharacteristicFound = characteristic;
-            characteristic.addEventListener('characteristicvaluechanged', handleTextChange);
-            characteristic.readValue();
-            //characteristic.startNotifications();
-        //     return characteristic.readValue();
-        // })
-        // .then(value => {
-        //     debugLogger("Read text value: ", value);
-        //     const decodedValue = new TextDecoder().decode(value);
-        //     debugLogger("Decoded value: ", decodedValue);
-        //     //document.getElementById('textValue').innerHTML = decodedValue; 
+            textCharacteristicFound.addEventListener('characteristicvaluechanged', handleTextChange);
+            textCharacteristicFound.readValue();
             return bleServiceFound.getCharacteristic(colorCharacteristic);    
          })
          .then(characteristic => {
             debugLogger("Color Characteristic discovered:", characteristic.uuid);
             colorCharacteristicFound = characteristic;
-            characteristic.addEventListener('characteristicvaluechanged', handleColorChange);
-            characteristic.readValue();
-            //characteristic.startNotifications();
-        //     return characteristic.readValue();
-        // })
-        //.then(value => {
-        //     debugLogger("Read color value: ", value);
-        //     const decodedValue = new TextDecoder().decode(value);
-        //     debugLogger("Decoded value: ", decodedValue);
-        //     //document.getElementById('colorValue').innerHTML = decodedValue; 
-             return bleServiceFound.getCharacteristic(batteryCharacteristic);
+            colorCharacteristicFound.addEventListener('characteristicvaluechanged', handleColorChange);
+            colorCharacteristicFound.readValue();
+            return bleServiceFound.getCharacteristic(batteryCharacteristic);
         })
         .then(characteristic => {
             debugLogger("Battery Characteristic discovered:", characteristic.uuid);
@@ -168,14 +152,8 @@
             characteristic.addEventListener('characteristicvaluechanged', handleBatteryChange);
             characteristic.startNotifications();
             debugLogger("Notifications Started.");
-            //return characteristic.readValue();
+            characteristic.readValue();
         })
-        // .then(value => {
-        //     debugLogger("Read value: ", value);
-        //     const decodedValue = new TextDecoder().decode(value);
-        //     debugLogger("Decoded value: ", decodedValue);
-        //     batteryValue.innerHTML = decodedValue;            
-        // })
         .catch(error => {
             debugLogger('ConnectDevice Error: ', error);
         })
@@ -196,10 +174,13 @@
         timestampContainer.innerHTML = getDateTime();
     }
     function handleColorChange(event){
+        debugLogger("ColorCharacteristic value change start");
         const newValueReceived = new TextDecoder().decode(event.target.value);
         debugLogger("ColorCharacteristic value changed: ", newValueReceived);
         docuent.getElementById('colorValue').value = newValueReceived;
+        debugLogger("ColorCharacteristic value update time");
         timestampContainer.innerHTML = getDateTime();
+        debugLogger("ColorCharacteristic value change end");
     }
 
     function handleBatteryChange(event){

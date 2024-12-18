@@ -191,6 +191,10 @@
         const newValueReceived = new TextDecoder().decode(event.target.value);
         debugLogger("TextCharacteristic value changed: ", newValueReceived);
         textValue.value = newValueReceived;
+        debugLogger( "trying doc.get.value");
+        document.getElementById('textValue').value = newValueReceived;
+        debugLogger( "trying doc.get.innerHTML");
+        document.getElementById('textValue').innerHTML = "innerHTML";//newValueReceived;
         timestampContainer.innerHTML = getDateTime();
     }
     function handleColorChange(event){

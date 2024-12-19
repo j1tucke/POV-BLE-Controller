@@ -145,11 +145,11 @@
             batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);    
          }
         if (batteryCharacteristicFound) {
-            debugLogger("Battery Characteristic discovered:", batteryCharacteristic.uuid);
-            characteristic.addEventListener('characteristicvaluechanged', handleBatteryChange);
-            await characteristic.startNotifications();
+            debugLogger("Battery Characteristic discovered:", batteryCharacteristicFound.uuid);
+            batteryCharacteristicFound.addEventListener('characteristicvaluechanged', handleBatteryChange);
+            await batteryCharacteristicFound.startNotifications();
             debugLogger("Notifications Started.");
-            characteristic.readValue();
+            batteryCharacteristicFound.readValue();
         }
     }
         catch(error ) {

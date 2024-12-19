@@ -121,15 +121,14 @@
             bleStateContainer.innerHTML = 'Connected to device ' + device.name;
             bleStateContainer.style.color = "#24af37";
             device.addEventListener('gattservicedisconnected', onDisconnected);
-            gattServer = await device.gatt.connect();
+            bleServer = await device.gatt.connect();
         }
-        if (gattServer ){
-            bleServer = gattServer;
+        if (bleServer ){
+        
             debugLogger("Connected to GATT Server");
             bleServiceFound = await bleServer.getPrimaryService(bleService);
         }
-        if (service ){
-            bleServiceFound = service;
+        if (bleServiceFound ){
             debugLogger("Service discovered:", service.uuid);
             colorCharacteristicFound = await bleServiceFound.getCharacteristic(colorCharacteristic);
         }

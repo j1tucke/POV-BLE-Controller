@@ -109,54 +109,53 @@
     }
 
     // Connect to BLE Device and Enable Notifications
-    function connectToDevice(){
+    async function connectToDevice(){
         debugLogger('Initializing Bluetooth...');
-        navigator.bluetooth.requestDevice({
+        try{
+        device = await navigator.bluetooth.requestDevice({
             filters: [{name: deviceName}],
             optionalServices: [bleService]
-        })
-        .then(device => {
+        });
+        if ( device ) {
             debugLogger('Device Selected:', device.name);
             bleStateContainer.innerHTML = 'Connected to device ' + device.name;
             bleStateContainer.style.color = "#24af37";
             device.addEventListener('gattservicedisconnected', onDisconnected);
-            return device.gatt.connect();
-        })
-        .then(gattServer =>{
+            gattServer = await device.gatt.connect();
+        }
+        if (gattServer ){
             bleServer = gattServer;
             debugLogger("Connected to GATT Server");
-            return bleServer.getPrimaryService(bleService);
-        })
-        .then(service => {
+            bleServiceFound = await bleServer.getPrimaryService(bleService);
+        }
+        if (service ){
             bleServiceFound = service;
             debugLogger("Service discovered:", service.uuid);
-            return service.getCharacteristic(colorCharacteristic);
-        })
-        .then(characteristic => {
-            debugLogger("Color Characteristic discovered:", characteristic.uuid);
-            colorCharacteristicFound = characteristic;
+            colorCharacteristicFound = await bleServiceFound.getCharacteristic(colorCharacteristic);
+        }
+        if (colorCharacteristicFound){
+            debugLogger("Color Characteristic discovered:", colorCharacteristicFound.uuid);
             colorCharacteristicFound.addEventListener('characteristicvaluechanged', handleColorChange);
             colorCharacteristicFound.readValue();
-            return bleServiceFound.getCharacteristic(textCharacteristic);
-        })
-        .then(characteristic => {
-            debugLogger("Text Characteristic discovered:", characteristic.uuid);
-            textCharacteristicFound = characteristic;
+            textCharacteristicFound  = await bleServiceFound.getCharacteristic(textCharacteristic);
+        }
+        if (textCharacteristicFound) {
+            debugLogger("Text Characteristic discovered:", textCharacteristicFound.uuid);
             textCharacteristicFound.addEventListener('characteristicvaluechanged', handleTextChange);
-            textCharacteristicFound.readValue();
-            return bleServiceFound.getCharacteristic(batteryCharacteristic);    
-         })
-        .then(characteristic => {
-            debugLogger("Battery Characteristic discovered:", characteristic.uuid);
-            batteryCharacteristicFound = characteristic;
+            await textCharacteristicFound.readValue();
+            batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);    
+         }
+        if (batteryCharacteristicFound) {
+            debugLogger("Battery Characteristic discovered:", batteryCharacteristic.uuid);
             characteristic.addEventListener('characteristicvaluechanged', handleBatteryChange);
-            characteristic.startNotifications();
+            await characteristic.startNotifications();
             debugLogger("Notifications Started.");
             characteristic.readValue();
-        })
-        .catch(error => {
+        }
+    }
+        catch(error ) {
             debugLogger('ConnectDevice Error: ', error);
-        })
+        }
     }
 
     function onDisconnected(event){
@@ -184,7 +183,6 @@
         timestampContainer.innerHTML = getDateTime();
         debugLogger("ColorCharacteristic value change end");
     }
-
     function handleBatteryChange(event){
         
         const value = event.target.value;

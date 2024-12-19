@@ -135,21 +135,21 @@
         if (colorCharacteristicFound){
             debugLogger("Color Characteristic discovered:", colorCharacteristicFound.uuid);
             colorCharacteristicFound.addEventListener('characteristicvaluechanged', handleColorChange);
-            colorCharacteristicFound.readValue();
+            //colorCharacteristicFound.readValue();
             textCharacteristicFound  = await bleServiceFound.getCharacteristic(textCharacteristic);
         }
         if (textCharacteristicFound) {
             debugLogger("Text Characteristic discovered:", textCharacteristicFound.uuid);
             textCharacteristicFound.addEventListener('characteristicvaluechanged', handleTextChange);
-            textCharacteristicFound.readValue();
+            //textCharacteristicFound.readValue();
             batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);    
          }
         if (batteryCharacteristicFound) {
             debugLogger("Battery Characteristic discovered:", batteryCharacteristicFound.uuid);
             batteryCharacteristicFound.addEventListener('characteristicvaluechanged', handleBatteryChange);
-            await batteryCharacteristicFound.startNotifications();
+            batteryCharacteristicFound.startNotifications();
             debugLogger("Notifications Started.");
-            batteryCharacteristicFound.readValue();
+            //batteryCharacteristicFound.readValue();
         }
     }
         catch(error ) {

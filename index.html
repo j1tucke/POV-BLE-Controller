@@ -129,7 +129,7 @@
             bleServiceFound = await bleServer.getPrimaryService(bleService);
         }
         if (bleServiceFound ){
-            debugLogger("Service discovered:", service.uuid);
+            debugLogger("Service discovered:", bleService.uuid);
             colorCharacteristicFound = await bleServiceFound.getCharacteristic(colorCharacteristic);
         }
         if (colorCharacteristicFound){

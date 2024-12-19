@@ -141,7 +141,7 @@
         if (textCharacteristicFound) {
             debugLogger("Text Characteristic discovered:", textCharacteristicFound.uuid);
             textCharacteristicFound.addEventListener('characteristicvaluechanged', handleTextChange);
-            await textCharacteristicFound.readValue();
+            textCharacteristicFound.readValue();
             batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);    
          }
         if (batteryCharacteristicFound) {

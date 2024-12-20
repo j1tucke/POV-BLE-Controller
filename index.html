@@ -32,6 +32,11 @@
                 <h2>Display Settings</h2>
                 <input type="color" id="colorValue">
                 <input size="11" type="text" id="textValue">
+                <p>
+                <label>Delay char width:</label>
+                <input type="text" id="delayValue"></p>
+                <p><label>Delay space:</label>
+                <input type="text" id="delaySpaceValue"></p>
                 <button id="sendButton" class="sendButton">Send</button>
                 
                 <p class="gray-label">Last value sent: <span id="valueSent"></span></p>
@@ -55,6 +60,8 @@
     const sendButton = document.getElementById('sendButton');
     const textValue = document.getElementById('textValue');
     const colorValue = document.getElementById('colorValue');
+    const delayValue = document.getElementById('delayValue');
+    const delaySpaceValue = document.getElementById('delaySpaceValue');
     const batteryValue = document.getElementById('batteryValue');
     const latestValueSent = document.getElementById('valueSent');
     const bleStateContainer = document.getElementById('bleState');
@@ -142,6 +149,18 @@
             debugLogger("Text Characteristic discovered:", textCharacteristicFound.uuid);
             textCharacteristicFound.addEventListener('characteristicvaluechanged', handleTextChange);
             //textCharacteristicFound.readValue();
+            delayCharacteristicFound = await bleServiceFound.getCharacteristic(delayCharacteristic);    
+         }
+         if (delayCharacteristicFound) {
+            debugLogger("Delay Characteristic discovered:", delayCharacteristicFound.uuid);
+            //delayCharacteristicFound.addEventListener('characteristicvaluechanged', handleDelayChange);
+            //textCharacteristicFound.readValue();
+            delaySpaceCharacteristicFound = await bleServiceFound.getCharacteristic(delaySpaceCharacteristic);    
+         }
+         if (delaySpaceCharacteristicFound) {
+            debugLogger("Delay SpaceCharacteristic discovered:", delaySpaceCharacteristicFound.uuid);
+            //delayCharacteristicFound.addEventListener('characteristicvaluechanged', handleDelayChange);
+            //textCharacteristicFound.readValue();
             batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);    
          }
         if (batteryCharacteristicFound) {
@@ -193,16 +212,51 @@
     async function sendNewValues(){
         newColor = document.getElementById('colorValue').value;
         newText = document.getElementById('textValue').value;
+        newDelayValue = document.getElementById('delayValue');
+        newDelaySpaceValue = document.getElementById('delaySpaceValue');
         debugLogger( "text value: ", document.getElementById('textValue').value );
 
         await writeTextCharacteristic(newText);
         await writeColorCharacteristic(newColor);
-        
+        await writeDelayCharacteristic(newDelayValue);
+        await writeDelaySpacerCharacteristic(newDelaySpaceValue);
         
         debugLogger( "done with sendNewValues" );
         latestValueSent.innerHTML = newColor + ":" + newText;
     }
 
+    async function writeDelayCharacteristic(value) {
+        return new Promise((resolve, reject) => {
+            const encoder = new TextEncoder(); // To convert string to ArrayBuffer
+            const data = encoder.encode(value);
+            debugLogger( "start writeDelayCharacteristic value:["+ value + "]");
+            delayCharacteristicFound.writeValue(data)
+            .then(() => {
+                debugLogger("Value written to delay Characteristic:", value);
+                resolve();
+            })
+            .catch(error => {
+                debugLogger("Error writing to the delay characteristic: ", error);
+                reject(errro);
+            });
+        });
+    }
+    async function writeDelaySpaceCharacteristic(value) {
+        return new Promise((resolve, reject) => {
+            const encoder = new TextEncoder(); // To convert string to ArrayBuffer
+            const data = encoder.encode(value);
+            debugLogger( "start writeDelaySpaceCharacteristic value:["+ value + "]");
+            delaySpaceCharacteristicFound.writeValue(data)
+            .then(() => {
+                debugLogger("Value written to delaySpace Characteristic:", value);
+                resolve();
+            })
+            .catch(error => {
+                debugLogger("Error writing to the delaySpace characteristic: ", error);
+                reject(errro);
+            });
+        });
+    }
     async function writeColorCharacteristic(value) {
         return new Promise((resolve, reject) => {
             const encoder = new TextEncoder(); // To convert string to ArrayBuffer

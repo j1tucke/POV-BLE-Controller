@@ -244,7 +244,7 @@
         await writeTextCharacteristic(newText);
         await writeColorCharacteristic(newColor);
         await writeDelayCharacteristic(newDelayValue);
-        await writeDelaySpacerCharacteristic(newDelaySpaceValue);
+        await writeDelaySpaceCharacteristic(newDelaySpaceValue);
         
         debugLogger( "done with sendNewValues" );
         latestValueSent.innerHTML = newColor + ":" + newText;
@@ -253,8 +253,9 @@
     async function writeDelayCharacteristic(value) {
         return new Promise((resolve, reject) => {
             const encoder = new TextEncoder(); // To convert string to ArrayBuffer
-            const data = encoder.encode(value);
+            //const data = encoder.encode(value);
             debugLogger( "start writeDelayCharacteristic value:["+ value + "]");
+            const data = new Integer(Integer.parseInt(value, 16)).byteValue();
             delayCharacteristicFound.writeValue(data)
             .then(() => {
                 debugLogger("Value written to delay Characteristic:", value);
@@ -271,7 +272,7 @@
             const encoder = new TextEncoder(); // To convert string to ArrayBuffer
             const data = encoder.encode(value);
             debugLogger( "start writeDelaySpaceCharacteristic value:["+ value + "]");
-            delaySpaceCharacteristicFound.writeValue(data)
+            delaySpaceCharacteristicFound.writeValue(Integer.parseInt(value, 16)).byteValue())
             .then(() => {
                 debugLogger("Value written to delaySpace Characteristic:", value);
                 resolve();

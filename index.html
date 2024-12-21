@@ -255,7 +255,7 @@
             const encoder = new TextEncoder(); // To convert string to ArrayBuffer
             //const data = encoder.encode(value);
             debugLogger( "start writeDelayCharacteristic value:["+ value + "]");
-            const data = new Integer(Integer.parseInt(value, 16)).byteValue();
+            const data = (Integer.parseInt(value, 16)).byteValue();
             delayCharacteristicFound.writeValue(data)
             .then(() => {
                 debugLogger("Value written to delay Characteristic:", value);
@@ -272,7 +272,7 @@
             const encoder = new TextEncoder(); // To convert string to ArrayBuffer
             const data = encoder.encode(value);
             debugLogger( "start writeDelaySpaceCharacteristic value:["+ value + "]");
-            delaySpaceCharacteristicFound.writeValue(Integer.parseInt(value, 16).byteValue())
+            delaySpaceCharacteristicFound.writeValue(data)
             .then(() => {
                 debugLogger("Value written to delaySpace Characteristic:", value);
                 resolve();

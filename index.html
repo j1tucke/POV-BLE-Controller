@@ -275,7 +275,7 @@
             debugLogger( "start writeDelaySpaceCharacteristic value:["+ value + "]");
             delaySpaceCharacteristicFound.writeValue(value.getUint16(0))
             .then(() => {
-                debugLogger("Value written to delaySpace Characteristic:", value);
+                debugLogger("Value written to delaySpace Characteristic:", value.getUint16(0));
                 resolve();
             })
             .catch(error => {

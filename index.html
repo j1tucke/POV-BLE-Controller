@@ -253,8 +253,9 @@
 
     async function writeDelayCharacteristic(value) {
         return new Promise((resolve, reject) => {
-            debugLogger( "start writeDelayCharacteristic value:["+ value.getUint16(0) + "]");
-            delayCharacteristicFound.writeValue(value.getUint16(0))
+            debugLogger( "start writeDelayCharacteristic value:["+ parseInt(value) + "]");
+
+            delayCharacteristicFound.writeValue(parseInt(value))
             .then(() => {
                 debugLogger("Value written to delay Characteristic:", value);
                 resolve();

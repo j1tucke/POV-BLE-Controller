@@ -165,8 +165,9 @@
          }
         if (batteryCharacteristicFound) {
             debugLogger("Battery Characteristic discovered:", batteryCharacteristicFound.uuid);
+            //batteryCharacteristicFound.addEventListener('characteristicvaluechanged', handleBatteryChange);
+            await batteryCharacteristicFound.startNotifications();
             batteryCharacteristicFound.addEventListener('characteristicvaluechanged', handleBatteryChange);
-            batteryCharacteristicFound.startNotifications();
             debugLogger("Notifications Started.");
             //batteryCharacteristicFound.readValue();
         }else{

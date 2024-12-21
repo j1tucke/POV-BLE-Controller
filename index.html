@@ -224,15 +224,13 @@
         debugLogger("TextCharacteristic value changed: ", newValueReceived);
         textValue.value = newValueReceived;
         debugLogger( "trying doc.get.value");
-        //docuent.getElementById('textValue').value = newValueReceived;
         timestampContainer.innerHTML = getDateTime();
     }
     function handleColorChange(event){
         debugLogger("ColorCharacteristic value change start");
         const newValueReceived = new TextDecoder().decode(event.target.value);
         debugLogger("ColorCharacteristic value changed: ", newValueReceived);
-        //colorValue.value = newValueReceived;
-        docuent.getElementById('colorValue').value = newValueReceived;
+        colorValue.value = newValueReceived;
         debugLogger("ColorCharacteristic value update time");
         timestampContainer.innerHTML = getDateTime();
         debugLogger("ColorCharacteristic value change end");

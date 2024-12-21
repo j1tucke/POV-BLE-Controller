@@ -144,26 +144,24 @@
         if (colorCharacteristicFound){
             debugLogger("Color Characteristic discovered:", colorCharacteristicFound.uuid);
             colorCharacteristicFound.addEventListener('characteristicvaluechanged', handleColorChange);
-            //colorCharacteristicFound.readValue();
+            
             textCharacteristicFound  = await bleServiceFound.getCharacteristic(textCharacteristic);
         }
         if (textCharacteristicFound) {
             debugLogger("Text Characteristic discovered:", textCharacteristicFound.uuid);
             textCharacteristicFound.addEventListener('characteristicvaluechanged', handleTextChange);
-            //textCharacteristicFound.readValue();
+            
             delayCharacteristicFound = await bleServiceFound.getCharacteristic(delayCharacteristic);    
          }
          if (delayCharacteristicFound) {
             debugLogger("Delay Characteristic discovered:", delayCharacteristicFound.uuid);
-            //delayCharacteristicFound.addEventListener('characteristicvaluechanged', handleDelayChange);
-            //textCharacteristicFound.readValue();
+            delayCharacteristicFound.addEventListener('charactersticvaluechanged', handleDelayChange );
             delaySpaceCharacteristicFound = await bleServiceFound.getCharacteristic(delaySpaceCharacteristic);    
          }
          if (delaySpaceCharacteristicFound) {
             debugLogger("Delay SpaceCharacteristic discovered:", delaySpaceCharacteristicFound.uuid);
-            //delayCharacteristicFound.addEventListener('characteristicvaluechanged', handleDelayChange);
-            //textCharacteristicFound.readValue();
-            batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);    
+            delaySpaceCharacteristicFound.addEventListener('charactersticvaluechanged', handleDelaySpaceChange );
+            batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);
          }
         if (batteryCharacteristicFound) {
             debugLogger("Battery Characteristic discovered:", batteryCharacteristicFound.uuid);
@@ -174,6 +172,11 @@
         }else{
             debugLogger('ConnectDevice Error: ???');
         }
+        colorCharacteristicFound.readValue();
+        textCharacteristicFound.readValue();
+        textCharacteristicFound.readValue();
+        delaySpaceCharacteristicFound.readValue();
+        delayCharacteristicFound.readValue();
     //} 
         //catch(error ) {
             //debugLogger('ConnectDevice Error: ', error);
@@ -185,6 +188,24 @@
         bleStateContainer.innerHTML = "Device disconnected";
         bleStateContainer.style.color = "#d13a30";
         connectToDevice();
+    }
+    function handleDelayChange(event){
+        debugLogger("DelayCharacteristic value changed start");
+        const newValueReceived = new TextDecoder().decode(event.target.value);
+        debugLogger("DelayCharacteristic value changed: ", newValueReceived);
+        delayValue.value = newValueReceived;
+        debugLogger( "trying doc.get.value");
+        //docuent.getElementById('textValue').value = newValueReceived;
+        timestampContainer.innerHTML = getDateTime();
+    }
+    function handleDelaySpaceChange(event){
+        debugLogger("DelaySpaceCharacteristic value changed start");
+        const newValueReceived = new TextDecoder().decode(event.target.value);
+        debugLogger("DelaySpaceCharacteristic value changed: ", newValueReceived);
+        delaySpaceValue.value = newValueReceived;
+        debugLogger( "trying doc.get.value");
+        //docuent.getElementById('textValue').value = newValueReceived;
+        timestampContainer.innerHTML = getDateTime();
     }
     function handleTextChange(event){
         debugLogger("TextCharacteristic value changed start");

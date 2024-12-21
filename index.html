@@ -176,16 +176,12 @@
             debugLogger("Delay SpaceCharacteristic discovered:", delaySpaceCharacteristicFound.uuid);
             delaySpaceCharacteristicFound.addEventListener('charactersticvaluechanged', handleDelaySpaceChange );
             await delaySpaceCharacteristicFound.startNotifications();
-            await colorCharacteristicFound.readValue();
-        await textCharacteristicFound.readValue();
-        await delaySpaceCharacteristicFound.readValue();
-        await delayCharacteristicFound.readValue();
             batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);
          }
         if (batteryCharacteristicFound) {
             debugLogger("Battery Characteristic discovered:", batteryCharacteristicFound.uuid);
-            await batteryCharacteristicFound.startNotifications();
             batteryCharacteristicFound.addEventListener('characteristicvaluechanged', handleBatteryChange);
+            await batteryCharacteristicFound.startNotifications();
             debugLogger("Notifications Started.");
             //batteryCharacteristicFound.readValue();
         }else{
@@ -235,8 +231,8 @@
         debugLogger("ColorCharacteristic value change start");
         const newValueReceived = new TextDecoder().decode(event.target.value);
         debugLogger("ColorCharacteristic value changed: ", newValueReceived);
-        colorValue.value = newValueReceived;
-        //docuent.getElementById('colorValue').value = newValueReceived;
+        //colorValue.value = newValueReceived;
+        docuent.getElementById('colorValue').value = newValueReceived;
         debugLogger("ColorCharacteristic value update time");
         timestampContainer.innerHTML = getDateTime();
         debugLogger("ColorCharacteristic value change end");

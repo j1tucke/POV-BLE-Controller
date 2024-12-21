@@ -267,7 +267,7 @@
             debugLogger( "start writeDelayCharacteristic value:["+ parseInt(value) + "]");
             const buffer = new ArrayBuffer(2);
             const view = new DataView(buffer);
-            view.setUint16(0, parseInt(value) );
+            view.setUint16(0, parseInt(value), true );
             delayCharacteristicFound.writeValue(buffer)
             .then(() => {
                 debugLogger("Value written to delay Characteristic:", value);
@@ -284,7 +284,7 @@
         
             const buffer = new ArrayBuffer(2);
             const view = new DataView(buffer);
-            view.setUint16(0, parseInt(value) );
+            view.setUint16(0, parseInt(value), true );
             debugLogger( "start writeDelaySpaceCharacteristic value:["+ value + "]");
             delaySpaceCharacteristicFound.writeValue(buffer)
             .then(() => {

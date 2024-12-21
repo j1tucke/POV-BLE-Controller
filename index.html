@@ -176,6 +176,10 @@
             debugLogger("Delay SpaceCharacteristic discovered:", delaySpaceCharacteristicFound.uuid);
             delaySpaceCharacteristicFound.addEventListener('charactersticvaluechanged', handleDelaySpaceChange );
             await delaySpaceCharacteristicFound.startNotifications();
+            await colorCharacteristicFound.readValue();
+        await textCharacteristicFound.readValue();
+        await delaySpaceCharacteristicFound.readValue();
+        await delayCharacteristicFound.readValue();
             batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);
          }
         if (batteryCharacteristicFound) {

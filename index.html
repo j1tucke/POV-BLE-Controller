@@ -168,13 +168,13 @@
          }
          if (delayCharacteristicFound) {
             debugLogger("Delay Characteristic discovered:", delayCharacteristicFound.uuid);
-            delayCharacteristicFound.addEventListener('charactersticvaluechanged', handleDelayChange );
+            delayCharacteristicFound.addEventListener('characteristicvaluechanged', handleDelayChange );
             await delayCharacteristicFound.startNotifications();
             delaySpaceCharacteristicFound = await bleServiceFound.getCharacteristic(delaySpaceCharacteristic);    
          }
          if (delaySpaceCharacteristicFound) {
             debugLogger("Delay SpaceCharacteristic discovered:", delaySpaceCharacteristicFound.uuid);
-            delaySpaceCharacteristicFound.addEventListener('charactersticvaluechanged', handleDelaySpaceChange );
+            delaySpaceCharacteristicFound.addEventListener('characteristicvaluechanged', handleDelaySpaceChange );
             await delaySpaceCharacteristicFound.startNotifications();
             batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);
          }

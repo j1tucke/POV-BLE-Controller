@@ -167,13 +167,13 @@
          if (delayCharacteristicFound) {
             debugLogger("Delay Characteristic discovered:", delayCharacteristicFound.uuid);
             delayCharacteristicFound.addEventListener('charactersticvaluechanged', handleDelayChange );
-            delayCharacteristicFound.startNotifications()
+            //delayCharacteristicFound.startNotifications()
             delaySpaceCharacteristicFound = await bleServiceFound.getCharacteristic(delaySpaceCharacteristic);    
          }
          if (delaySpaceCharacteristicFound) {
             debugLogger("Delay SpaceCharacteristic discovered:", delaySpaceCharacteristicFound.uuid);
             delaySpaceCharacteristicFound.addEventListener('charactersticvaluechanged', handleDelaySpaceChange );
-            delaySpaceCharacteristicFound.startNotifications()
+            //delaySpaceCharacteristicFound.startNotifications()
             batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);
          }
         if (batteryCharacteristicFound) {
@@ -205,20 +205,17 @@
     }
     function handleDelayChange(event){
         debugLogger("DelayCharacteristic value changed start");
-        const newValueReceived = new TextDecoder().decode(event.target.value);
-        debugLogger("DelayCharacteristic value changed: ", newValueReceived);
-        delayValue.value = newValueReceived;
-        debugLogger( "trying doc.get.value");
-        //docuent.getElementById('textValue').value = newValueReceived;
-        timestampContainer.innerHTML = getDateTime();
+        const value = event.target.value;
+        const intValue = value.getUint16(0, true); // Assuming little-endian format
+        delayValue.value = intValue;
+        debugLogger("DelayCharacteristic value changed: ", intValue);
     }
     function handleDelaySpaceChange(event){
         debugLogger("DelaySpaceCharacteristic value changed start");
-        const newValueReceived = new TextDecoder().decode(event.target.value);
-        debugLogger("DelaySpaceCharacteristic value changed: ", newValueReceived);
-        delaySpaceValue.value = newValueReceived;
-        debugLogger( "trying doc.get.value");
-        //docuent.getElementById('textValue').value = newValueReceived;
+        const value = event.target.value;
+        const intValue = value.getUint16(0, true); // Assuming little-endian format
+        delaySpaceValue.value = intValue;
+        debugLogger("DelaySpaceCharacteristic value changed: ", intValue);
         timestampContainer.innerHTML = getDateTime();
     }
     function handleTextChange(event){

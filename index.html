@@ -285,7 +285,7 @@
         const view = new DataView(buffer);
         view.setUint16(0, parseInt(value) );
             debugLogger( "start writeDelaySpaceCharacteristic value:["+ value + "]");
-            delaySpaceCharacteristicFound.writeValue(buffer)
+            delaySpaceCharacteristicFound.writeValue(buffer.getUint16(0))
             .then(() => {
                 debugLogger("Value written to delaySpace Characteristic:", value.getUint16(0));
                 resolve();

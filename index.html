@@ -108,6 +108,16 @@
 
     // Check if BLE is available in your Browser
     function isWebBluetoothEnabled() {
+        const value = "123";
+        
+        const encoder = new TextEncoder(); // To convert string to ArrayBuffer
+        const data = encoder.encode(value);
+
+        const buffer = new ArrayBuffer(4);
+        const view = new DataView(buffer);
+        view.setUint16(0, parseInt(value) );
+        debugLogger( "int value:["+ view.getInt16(0) + "]");
+        debugLogger( "buffer value:["+ buffer + "]");
         if (!navigator.bluetooth) {
             debugLogger('Web Bluetooth API is not available in this browser!');
             bleStateContainer.innerHTML = "Web Bluetooth API is not available in this browser/device!";
@@ -120,6 +130,7 @@
     // Connect to BLE Device and Enable Notifications
     async function connectToDevice(){
         debugLogger('Initializing Bluetooth...');
+        
         //try{
         device = await navigator.bluetooth.requestDevice({
             filters: [{name: deviceName}],
@@ -254,8 +265,10 @@
     async function writeDelayCharacteristic(value) {
         return new Promise((resolve, reject) => {
             debugLogger( "start writeDelayCharacteristic value:["+ parseInt(value) + "]");
-
-            delayCharacteristicFound.writeValue(parseInt(value))
+            const buffer = new ArrayBuffer(4);
+        const view = new DataView(buffer);
+        view.setUint16(0, parseInt(value) );
+            delayCharacteristicFound.writeValue(buffer)
             .then(() => {
                 debugLogger("Value written to delay Characteristic:", value);
                 resolve();
@@ -268,10 +281,11 @@
     }
     async function writeDelaySpaceCharacteristic(value) {
         return new Promise((resolve, reject) => {
-            const encoder = new TextEncoder(); // To convert string to ArrayBuffer
-            const data = encoder.encode(value);
+            const buffer = new ArrayBuffer(4);
+        const view = new DataView(buffer);
+        view.setUint16(0, parseInt(value) );
             debugLogger( "start writeDelaySpaceCharacteristic value:["+ value + "]");
-            delaySpaceCharacteristicFound.writeValue(value.getUint16(0))
+            delaySpaceCharacteristicFound.writeValue(buffer)
             .then(() => {
                 debugLogger("Value written to delaySpace Characteristic:", value.getUint16(0));
                 resolve();

@@ -157,30 +157,29 @@
         if (colorCharacteristicFound){
             debugLogger("Color Characteristic discovered:", colorCharacteristicFound.uuid);
             colorCharacteristicFound.addEventListener('characteristicvaluechanged', handleColorChange);
-            
+            await colorCharacteristicFound.startNotifications();
             textCharacteristicFound  = await bleServiceFound.getCharacteristic(textCharacteristic);
         }
         if (textCharacteristicFound) {
             debugLogger("Text Characteristic discovered:", textCharacteristicFound.uuid);
             textCharacteristicFound.addEventListener('characteristicvaluechanged', handleTextChange);
-            
+            await textCharacteristicFound.startNotifications();
             delayCharacteristicFound = await bleServiceFound.getCharacteristic(delayCharacteristic);    
          }
          if (delayCharacteristicFound) {
             debugLogger("Delay Characteristic discovered:", delayCharacteristicFound.uuid);
             delayCharacteristicFound.addEventListener('charactersticvaluechanged', handleDelayChange );
-            //delayCharacteristicFound.startNotifications()
+            await delayCharacteristicFound.startNotifications();
             delaySpaceCharacteristicFound = await bleServiceFound.getCharacteristic(delaySpaceCharacteristic);    
          }
          if (delaySpaceCharacteristicFound) {
             debugLogger("Delay SpaceCharacteristic discovered:", delaySpaceCharacteristicFound.uuid);
             delaySpaceCharacteristicFound.addEventListener('charactersticvaluechanged', handleDelaySpaceChange );
-            //delaySpaceCharacteristicFound.startNotifications()
+            await delaySpaceCharacteristicFound.startNotifications();
             batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);
          }
         if (batteryCharacteristicFound) {
             debugLogger("Battery Characteristic discovered:", batteryCharacteristicFound.uuid);
-            //batteryCharacteristicFound.addEventListener('characteristicvaluechanged', handleBatteryChange);
             await batteryCharacteristicFound.startNotifications();
             batteryCharacteristicFound.addEventListener('characteristicvaluechanged', handleBatteryChange);
             debugLogger("Notifications Started.");

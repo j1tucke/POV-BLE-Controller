@@ -93,7 +93,7 @@
         debuggerText += line3 ?? ""
         debuggerText += "\n"
         document.getElementById('debugger').innerHTML = debuggerText;
-        console.log(line);
+        console.log(debuggerText);
     }
     // Connect Button (search for BLE Devices only if BLE is available)
     connectButton.addEventListener('click', (event) => {
@@ -133,7 +133,7 @@
     async function connectToDevice(){
         debugLogger('Initializing Bluetooth...');
         
-        //try{
+        try{
         device = await navigator.bluetooth.requestDevice({
             filters: [{name: deviceName}],
             optionalServices: [bleService]
@@ -174,8 +174,8 @@
          }
          if (delaySpaceCharacteristicFound) {
             debugLogger("Delay SpaceCharacteristic discovered:", delaySpaceCharacteristicFound.uuid);
-            delaySpaceCharacteristicFound.addEventListener('characteristicvaluechanged', handleDelaySpaceChange );
-            await delaySpaceCharacteristicFound.startNotifications();
+            //delaySpaceCharacteristicFound.addEventListener('characteristicvaluechanged', handleDelaySpaceChange );
+            //await delaySpaceCharacteristicFound.startNotifications();
             batteryCharacteristicFound = await bleServiceFound.getCharacteristic(batteryCharacteristic);
          }
         if (batteryCharacteristicFound) {
@@ -191,10 +191,10 @@
         await textCharacteristicFound.readValue();
         await delaySpaceCharacteristicFound.readValue();
         await delayCharacteristicFound.readValue();
-    //} 
-        //catch(error ) {
-            //debugLogger('ConnectDevice Error: ', error);
-        //}
+    } 
+        catch(error ) {
+            debugLogger('ConnectDevice Error: ', error);
+        }
     }
 
     function onDisconnected(event){
